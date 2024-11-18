@@ -13,10 +13,14 @@ footer {
 }
 
 main {
-  height: 80vh;
+  height: 30vh;
   display: flex;
   justify-content: center;
   align-items: flex-start;
+}
+
+section {
+  height: 47vh;
 }
 
 h1 {
@@ -34,7 +38,7 @@ p {
   margin-top: 0.7rem;
 }
 
-form{
+form {
   margin-top: 2rem;
   display: flex;
   gap: 1rem;
@@ -60,24 +64,83 @@ button {
   cursor: pointer;
 }
 
-button:hover{
+button:hover {
   background-color: #fe1e4e;
 }
 
+/* watch time */
+
+.watch-time-section {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  padding: 0 2rem;
+  place-items: center;
+}
+
+.watch-time-box {
+  width: 300px;
+  height: 150px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.watch-time-box:hover {
+  transform: scale(1.05);
+}
+
+.watch-time-box h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #444;
+}
+
+.watch-time-box p {
+  margin: 10px 0 0;
+  font-size: 1rem;
+  color: #666;
+}
+
+/* =================== MEDIA QUERIES ================= */
+
+@media screen and (max-width: 1350px) {
+  .watch-time-box {
+    width: 200px;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .watch-time-section {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media screen and (max-width: 680px) {
-  form{
+  form {
     flex-direction: column;
     align-items: center;
   }
 
-  button{
+  button {
     padding: 5px 10px;
     width: 100px;
   }
 }
 
-@media screen and (max-width: 525px){
-  input{
+@media screen and (max-width: 525px) {
+  input {
     width: 300px;
+  }
+
+  .watch-time-section {
+    grid-template-columns: repeat(1, 1fr);
   }
 }

@@ -4,12 +4,28 @@ import DisplayWatchTime from "./DisplayWatchTime.jsx";
 
 const Home = () => {
   const [link, setLink] = useState("");
-  const duration = link;
+  const [duration, setDuration] = useState(null);
+  const [error, setError] = useState("");
 
   // ========== SUBMIT HANDLER =========
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(link);
+    setError("");
+    setDuration(null);
+
+    try {
+      const response = await fetch(`http://localhost:5004/api/video-details?url=${link}`);
+      const data = await response.json();
+
+      if (response.ok) {
+        setDuration(data.duration);
+      } else {
+        setError(data.error || "Failed to fetch video details.");
+      }
+    } catch (err) {
+      console.error("Error details:", err);
+      setError("Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -27,12 +43,15 @@ const Home = () => {
           <input type="search" placeholder="Paste the YouTube Video Link here" value={link} onChange={(e) => setLink(e.target.value)} required />
           <button type="submit">Submit</button>
         </form>
+      </main>
 
-        {/* VIDEO SECTION */}
+      <section>
+        {/* Error Message */}
+        {error && <p className="error-message">{error}</p>}
 
         {/* WATCHTIME SECTION */}
-        <DisplayWatchTime duration={duration} />
-      </main>
+        {duration && <DisplayWatchTime duration={duration} />}
+      </section>
 
       <footer>
         <p>

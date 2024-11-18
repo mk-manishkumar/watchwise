@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import axios from "axios";
+import morgan from "morgan";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -9,15 +10,14 @@ const PORT = process.env.PORT || 5000;
 // MIDDLEWARE
 app.use(cors());
 app.use(express.json());
+app.use(morgan("dev"));
 
 // API Route to Fetch YouTube Video Details
 app.get("/api/video-details", async (req, res) => {
   const videoUrl = req.query.url;
   const API_KEY = process.env.YOUTUBE_API_KEY;
 
-  if (!videoUrl) {
-    return res.status(400).json({ error: "YouTube video URL is required." });
-  }
+  if (!videoUrl) return res.status(400).json({ error: "YouTube video URL is required." });
 
   try {
     /*
@@ -45,14 +45,12 @@ app.get("/api/video-details", async (req, res) => {
     const thumbnail = videoDetails.snippet.thumbnails.high.url;
     const duration = videoDetails.contentDetails.duration;
 
-    // Send response
     res.json({
       title,
       thumbnail,
       duration,
     });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: "Failed to fetch video details." });
   }
 });
