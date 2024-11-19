@@ -4,26 +4,29 @@ import DisplayWatchTime from "./DisplayWatchTime.jsx";
 
 const Home = () => {
   const [link, setLink] = useState("");
-  const [duration, setDuration] = useState(null);
+  const [videoDetails, setVideoDetails] = useState(null);
   const [error, setError] = useState("");
 
   // ========== SUBMIT HANDLER =========
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setDuration(null);
+    setVideoDetails(null);
 
     try {
       const response = await fetch(`http://localhost:5004/api/video-details?url=${link}`);
       const data = await response.json();
 
       if (response.ok) {
-        setDuration(data.duration);
+        setVideoDetails({
+          title: data.title,
+          thumbnail: data.thumbnail,
+          duration: data.duration,
+        });
       } else {
         setError(data.error || "Failed to fetch video details.");
       }
     } catch (err) {
-      console.error("Error details:", err);
       setError("Something went wrong. Please try again.");
     }
   };
@@ -49,8 +52,17 @@ const Home = () => {
         {/* Error Message */}
         {error && <p className="error-message">{error}</p>}
 
+        {/* Video Details */}
+        {videoDetails && (
+          <div className="video-details">
+            <img src={videoDetails.thumbnail} alt={videoDetails.title} className="video-thumbnail" />
+            <p className="video-title">{videoDetails.title}</p>
+            <p className="video-duration">Video Duration: {videoDetails.duration}</p>
+          </div>
+        )}
+
         {/* WATCHTIME SECTION */}
-        {duration && <DisplayWatchTime duration={duration} />}
+        {videoDetails && <DisplayWatchTime duration={videoDetails.duration} />}
       </section>
 
       <footer>
