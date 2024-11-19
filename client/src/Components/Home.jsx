@@ -2,6 +2,21 @@ import React, { useState } from "react";
 import DayNightMode from "./DayNightMode.jsx";
 import DisplayWatchTime from "./DisplayWatchTime.jsx";
 
+// ================== Function to convert ISO 8601 duration to HH:MM:SS ====================
+const isoDurationToHHMMSS = (isoDuration) => {
+  if (!isoDuration) return null;
+
+  const match = isoDuration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
+  if (!match) return null;
+
+  const hours = match[1] ? parseInt(match[1].replace("H", "")) : 0;
+  const minutes = match[2] ? parseInt(match[2].replace("M", "")) : 0;
+  const seconds = match[3] ? parseInt(match[3].replace("S", "")) : 0;
+
+  const pad = (num) => String(num).padStart(2, "0");
+  return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+};
+
 const Home = () => {
   const [link, setLink] = useState("");
   const [videoDetails, setVideoDetails] = useState(null);
@@ -23,6 +38,7 @@ const Home = () => {
           thumbnail: data.thumbnail,
           duration: data.duration,
         });
+        setLink("");
       } else {
         setError(data.error || "Failed to fetch video details.");
       }
@@ -56,8 +72,10 @@ const Home = () => {
         {videoDetails && (
           <div className="video-details">
             <img src={videoDetails.thumbnail} alt={videoDetails.title} className="video-thumbnail" />
-            <p className="video-title">{videoDetails.title}</p>
-            <p className="video-duration">Video Duration: {videoDetails.duration}</p>
+            <p className="video-title">
+              <em>{videoDetails.title}</em>
+            </p>
+            <p className="video-duration">Video Duration: {isoDurationToHHMMSS(videoDetails.duration)}</p>
           </div>
         )}
 
