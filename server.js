@@ -20,12 +20,23 @@ app.get("/api/video-details", async (req, res) => {
   if (!videoUrl) return res.status(400).json({ error: "YouTube video URL is required." });
 
   try {
-    /*
-      new URL(videoUrl) converts the provided video URL into a proper URL object.
-      .search gets everything after the ? in the URL (like ?v=abc123).
-      new URLSearchParams(...).get("v") extracts the value of the v parameter, which is the video ID
-    */
-    const videoId = new URLSearchParams(new URL(videoUrl).search).get("v");
+    const url = new URL(videoUrl);
+
+    let videoId = null;
+
+    if (url.hostname === "youtu.be") {
+      videoId = url.pathname.substring(1); // Remove leading slash
+    } else if (url.hostname.includes("youtube.com")) {
+      if (url.pathname === "/watch") {
+        videoId = url.searchParams.get("v");
+      } else if (url.pathname.startsWith("/embed/")) {
+        videoId = url.pathname.split("/")[2];
+      } else if (url.pathname.startsWith("/shorts/")) {
+        videoId = url.pathname.split("/")[2];
+      }
+    }
+
+
     if (!videoId) return res.status(400).json({ error: "Invalid YouTube video URL." });
 
     // Call the YouTube Data API

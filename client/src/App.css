@@ -10,7 +10,7 @@ footer {
   padding: 1rem;
 }
 
-footer{
+footer {
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -59,7 +59,7 @@ input {
 }
 
 button {
-  background-color: #16a085;
+  background-color: #fe1e4e;
   color: #ffffff;
   border: none;
   font-size: 1.3rem;
@@ -69,7 +69,7 @@ button {
 }
 
 button:hover {
-  background-color: #fe1e4e;
+  background-color: #16a085;
 }
 
 /* watch time */
@@ -86,7 +86,6 @@ button:hover {
 .watch-time-box {
   width: 300px;
   height: 150px;
-  border: 2px solid #0d1117;
   border-radius: 8px;
   padding: 10px;
   text-align: center;
@@ -152,7 +151,7 @@ button:hover {
 
 @media screen and (max-width: 525px) {
   input {
-    width: 300px;
+    width: 250px;
   }
 
   .watch-time-section {
