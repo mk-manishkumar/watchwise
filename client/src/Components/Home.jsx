@@ -49,40 +49,46 @@ const Home = () => {
 
   return (
     <>
-      <header>
-        <h1>
-          <i className="fa-brands fa-youtube"></i> WatchWise
-        </h1>
-        <DayNightMode />
-      </header>
+      {/* ============= HEADER =================== */}
+      <div className="wrapper">
+        <header>
+          <h1>
+            <i className="fa-brands fa-youtube"></i> WatchWise
+          </h1>
+          <DayNightMode />
+        </header>
 
-      <main>
-        {/* FORM */}
-        <form action="" onSubmit={handleSubmit}>
-          <input type="search" placeholder="Paste the YouTube Video Link here" value={link} onChange={(e) => setLink(e.target.value)} required />
-          <button type="submit">Submit</button>
-        </form>
-      </main>
+        <main>
+          {/* ================ FORM =================== */}
+          <form action="" onSubmit={handleSubmit}>
+            <input type="search" placeholder="Paste the YouTube Video Link here" value={link} onChange={(e) => setLink(e.target.value)} required />
+            <button type="submit" className="submit">
+              Submit
+            </button>
+          </form>
+        </main>
 
-      <section>
-        {/* Error Message */}
-        {error && <p className="error-message">{error}</p>}
+        <section>
+          {/* ============= ERROR MESSAGE =================== */}
+          {error && <p className="error-message">{error}</p>}
 
-        {/* Video Details */}
-        {videoDetails && (
-          <div className="video-details">
-            <img src={videoDetails.thumbnail} alt={videoDetails.title} className="video-thumbnail" />
-            <p className="video-title">
-              <em>{videoDetails.title}</em>
-            </p>
-            <p className="video-duration">Video Duration: {isoDurationToHHMMSS(videoDetails.duration)}</p>
-          </div>
-        )}
+          {/* ================ VIDEO DETAILS ================== */}
+          {videoDetails && (
+            <div className="video-details">
+              <img src={videoDetails.thumbnail} alt={videoDetails.title} className="video-thumbnail" />
+              <p className="video-title">
+                <em>{videoDetails.title}</em>
+              </p>
+              <p className="video-duration">Video Duration: {isoDurationToHHMMSS(videoDetails.duration)}</p>
+            </div>
+          )}
 
-        {/* WATCHTIME SECTION */}
-        {videoDetails && <DisplayWatchTime duration={videoDetails.duration} />}
-      </section>
-
+          {/* ============ WATCHTIME SECTION ============ */}
+          {videoDetails && <DisplayWatchTime duration={videoDetails.duration} />}
+        </section>
+      </div>
+      
+      {/* =========== FOOTER ================= */}
       <footer>
         <p>
           Made with &#x1FA77; by{" "}
