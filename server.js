@@ -66,6 +66,18 @@ app.get("/api/video-details", async (req, res) => {
   }
 });
 
+// Catch-all route for undefined endpoints (404 Error)
+app.use((req, res, next) => {
+  res.status(404).json({ error: "Page not found." });
+});
+
+// Error-handling middleware (500 Error or others)
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Something went wrong. Please try again later." });
+});
+
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
