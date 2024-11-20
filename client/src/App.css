@@ -1,19 +1,67 @@
-body {
-  background-color: #25282c;
+:root {
+  /* Dark mode colors */
+  --dark-bg: #25282c;
+  --dark-text: #ffffff;
+  --dark-secondary-bg: #303337;
+  --dark-accent: #fe1e4e;
+  --dark-secondary-text: #857575;
+  --dark-secondary-text-light: #565151;
+  --dark-header-bg: #000;
+
+  /* Light mode colors */
+  --light-bg: #ffffff;
+  --light-text: #000000;
+  --light-secondary-bg: #f0f0f0;
+  --light-secondary-text: #333333;
+  --light-secondary-text-light: #666666;
+}
+
+.wrapper {
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
   display: flex;
   flex-direction: column;
+  min-height: 90vh;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-header,
+/* Light Mode Styles */
+.light-mode .wrapper {
+  background-color: var(--light-bg);
+  color: var(--light-text);
+}
+
+header {
+  background-color: var(--dark-header-bg);
+  padding: 1rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s;
+}
+
+.light-mode header {
+  background-color: var(--light-bg);
+}
+
 footer {
-  background-color: #000;
+  background-color: var(--dark-header-bg);
   padding: 1rem;
+  margin-top: auto;
+  height: 10vh;
+  transition: background-color 0.3s;
 }
 
-footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
+footer p {
+  color: var(--dark-text);
+}
+
+.light-mode footer {
+  background-color: var(--light-header-bg);
+}
+
+.light-mode footer p {
+  color: var(--dark-accent);
 }
 
 main {
@@ -23,23 +71,25 @@ main {
 }
 
 section {
-  margin-top: 2rem;
-  margin-bottom: 7rem;
+  margin: 2rem 1rem;
 }
 
 h1 {
-  color: #fe1e4e;
+  color: var(--dark-accent);
+  transition: color 0.3s;
 }
 
 a {
   text-decoration: none;
   color: #45a3fb;
+  transition: color 0.3s;
 }
 
 p {
-  color: #ffffff;
+  color: var(--dark-text);
   text-align: center;
   margin-top: 0.7rem;
+  transition: color 0.3s;
 }
 
 form {
@@ -49,31 +99,37 @@ form {
 }
 
 input {
-  background-color: #303337;
+  background-color: var(--dark-secondary-bg);
   border: none;
   outline: none;
   padding: 0.8rem;
-  color: #ffffff;
+  color: var(--dark-text);
   font-size: 1.3rem;
   width: 500px;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-button {
-  background-color: #fe1e4e;
-  color: #ffffff;
+.light-mode input {
+  background-color: var(--light-secondary-bg);
+  color: var(--light-text);
+}
+
+.submit {
+  background-color: var(--dark-accent);
+  color: var(--dark-text);
   border: none;
   font-size: 1.3rem;
   padding: 0.8rem;
   width: 150px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-button:hover {
+.submit:hover {
   background-color: #16a085;
 }
 
 /* watch time */
-
 .watch-time-section {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -91,10 +147,14 @@ button:hover {
   text-align: center;
   background-color: #0d1117;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out, background-color 0.3s;
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.light-mode .watch-time-box {
+  background-color: #dfebf3;
 }
 
 .watch-time-box:hover {
@@ -104,18 +164,34 @@ button:hover {
 .watch-time-box h3 {
   margin: 0;
   font-size: 1.2rem;
-  color: #857575;
+  color: var(--dark-secondary-text);
+  transition: color 0.3s;
+}
+
+.light-mode .watch-time-box h3 {
+  color: var(--light-secondary-text);
 }
 
 .watch-time-box p {
   margin: 10px 0 0;
   font-size: 1rem;
-  color: #565151;
+  color: var(--dark-secondary-text-light);
+  transition: color 0.3s;
+  font-weight: 600;
+}
+
+.light-mode .watch-time-box p {
+  color: var(--light-secondary-text-light);
 }
 
 .video-details {
   text-align: center;
-  color: #ffffff;
+  color: var(--dark-text);
+  transition: color 0.3s;
+}
+
+.light-mode .video-details {
+  color: var(--light-text);
 }
 
 .video-thumbnail {
@@ -123,8 +199,36 @@ button:hover {
   height: 150px;
 }
 
-/* =================== MEDIA QUERIES ================= */
+/* Theme toggle style */
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+}
 
+.theme-toggle i {
+  transition: color 0.3s;
+}
+
+.theme-toggle i.fa-sun {
+  color: #ffd700;
+}
+
+.theme-toggle i.fa-moon {
+  color: #fe1e4e;
+}
+
+.light-mode .theme-toggle i.fa-moon {
+  color: #fe1e4e;
+}
+
+.light-mode .theme-toggle i.fa-sun {
+  color: #ffd700;
+}
+
+/* Rest of the existing media queries remain the same */
 @media screen and (max-width: 1350px) {
   .watch-time-box {
     width: 200px;
@@ -152,6 +256,13 @@ button:hover {
 @media screen and (max-width: 525px) {
   input {
     width: 250px;
+  }
+
+  header {
+    padding: 1rem;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
   }
 
   .watch-time-section {
