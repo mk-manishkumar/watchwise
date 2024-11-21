@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import DayNightMode from "./DayNightMode.jsx";
 import DisplayWatchTime from "./DisplayWatchTime.jsx";
+import ErrorPage from "./ErrorMessage/ErrorMessage.jsx";
+import axios from "axios";
 
 // ================== Function to convert ISO 8601 duration to HH:MM:SS ====================
 const isoDurationToHHMMSS = (isoDuration) => {
@@ -29,23 +31,31 @@ const Home = () => {
     setVideoDetails(null);
 
     try {
-      const response = await fetch(`http://localhost:5004/api/video-details?url=${link}`);
-      const data = await response.json();
+      const response = await axios.get(`/api/video-details`, {
+        params: { url: link },
+      });
 
-      if (response.ok) {
-        setVideoDetails({
-          title: data.title,
-          thumbnail: data.thumbnail,
-          duration: data.duration,
-        });
-        setLink("");
+      console.log(response);
+
+      setVideoDetails({
+        title: response.data.title,
+        thumbnail: response.data.thumbnail,
+        duration: response.data.duration,
+      });
+      setLink("");
+    } catch (error) {
+      if (error.response) {
+        setError(error.response.data.error || "Failed to fetch video details.");
+      } else if (error.request) {
+        setError("No response from server. Please try again.");
       } else {
-        setError(data.error || "Failed to fetch video details.");
+        setError("Something went wrong. Please try again.");
       }
-    } catch (err) {
-      setError("Something went wrong. Please try again.");
     }
   };
+
+  // ============ HANDLING ERRORS =================
+  if (error) return <ErrorPage statusCode={error.includes("not found") ? 404 : 500} message={error} />;
 
   return (
     <>
@@ -60,7 +70,7 @@ const Home = () => {
 
         <main>
           {/* ================ FORM =================== */}
-          <form action="" onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>
             <input type="search" placeholder="Paste the YouTube Video Link here" value={link} onChange={(e) => setLink(e.target.value)} required />
             <button type="submit" className="submit">
               Submit
@@ -87,12 +97,12 @@ const Home = () => {
           {videoDetails && <DisplayWatchTime duration={videoDetails.duration} />}
         </section>
       </div>
-      
+
       {/* =========== FOOTER ================= */}
       <footer>
         <p>
           Made with &#x1FA77; by{" "}
-          <a href="https://manishmk.vercel.app/" target="_blank">
+          <a href="https://manishmk.vercel.app/" target="_blank" rel="noopener noreferrer">
             Manish Kumar
           </a>
           , &copy; 2024{" "}

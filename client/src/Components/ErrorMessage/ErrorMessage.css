@@ -1,0 +1,29 @@
+.error-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #25282c;
+  color: #ffffff;
+}
+
+.error-wrapper h1 {
+  font-size: 8rem;
+  color: #fe1e4e;
+}
+
+.error-wrapper p {
+  font-size: 1.5rem;
+  margin: 1rem 0;
+}
+
+.error-wrapper a {
+  color: #45a3fb;
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+.error-wrapper a:hover {
+  text-decoration: underline;
+}
