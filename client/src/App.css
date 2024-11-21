@@ -186,11 +186,14 @@ input {
 
 .video-details {
   text-align: center;
+}
+
+.video-details p {
   color: var(--dark-text);
   transition: color 0.3s;
 }
 
-.light-mode .video-details {
+.light-mode .video-details p {
   color: var(--light-text);
 }
 
