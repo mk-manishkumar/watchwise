@@ -25,7 +25,7 @@ app.get("/api/video-details", async (req, res) => {
     let videoId = null;
 
     if (url.hostname === "youtu.be") {
-      videoId = url.pathname.substring(1); // Remove leading slash
+      videoId = url.pathname.substring(1); 
     } else if (url.hostname.includes("youtube.com")) {
       if (url.pathname === "/watch") {
         videoId = url.searchParams.get("v");
@@ -35,7 +35,6 @@ app.get("/api/video-details", async (req, res) => {
         videoId = url.pathname.split("/")[2];
       }
     }
-
 
     if (!videoId) return res.status(400).json({ error: "Invalid YouTube video URL." });
 
@@ -76,7 +75,6 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: "Something went wrong. Please try again later." });
 });
-
 
 // Start the server
 app.listen(PORT, () => {
