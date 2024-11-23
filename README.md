@@ -7,7 +7,7 @@
 
 ## **Deployment**
 
-This project is deployed on `Render` (backend) and `Vercel` (frontend). [Click here]() for live project.
+This project is deployed on `Render` (backend) and `Vercel` (frontend). [Click here](https://watchwise-yt.vercel.app) for live project.
 
 ## **Technologies Used**
 
