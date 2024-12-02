@@ -250,15 +250,16 @@ input {
     align-items: center;
   }
 
-  button {
+  .submit {
     padding: 5px 10px;
     width: 100px;
+    border-radius: 7px;
   }
 }
 
 @media screen and (max-width: 525px) {
   input {
-    width: 250px;
+    width: 350px;
   }
 
   header {
@@ -273,5 +274,14 @@ input {
 @media screen and (max-width: 375px) {
   h1{
     font-size: 1.4rem;
+  }
+
+  input {
+    width: 270px;
+    font-size: 14px;
+  }
+
+  .submit{
+    font-size: 14px;
   }
 }
