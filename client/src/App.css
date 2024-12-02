@@ -263,12 +263,15 @@ input {
 
   header {
     padding: 1rem;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
   }
 
   .watch-time-section {
     grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media screen and (max-width: 375px) {
+  h1{
+    font-size: 1.4rem;
   }
 }

@@ -30,9 +30,7 @@ const Home = () => {
     setError("");
     setVideoDetails(null);
 
-    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
-    console.log(apiBaseUrl);
-    
+    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;    
 
     try {
       const response = await axios.get(`${apiBaseUrl}/api/video-details`, {
