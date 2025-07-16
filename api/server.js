@@ -1,57 +1,64 @@
+import express from "express";
+import cors from "cors";
 import axios from "axios";
+import dotenv from "dotenv";
+import morgan from "morgan";
 
-// Define URL patterns and their extraction methods
+dotenv.config();
+
+const app = express();
+app.use(morgan("dev"));
+
+const allowedOrigins = ["http://localhost:5173", "https://watchwise.vercel.app"];
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("Not allowed by CORS"));
+      }
+    },
+  })
+);
+
 const URL_PATTERNS = {
-  'youtu.be': (url) => url.pathname.substring(1),
-  'youtube.com': (url) => {
+  "youtu.be": (url) => url.pathname.substring(1),
+  "youtube.com": (url) => {
     if (url.pathname === "/watch") return url.searchParams.get("v");
     if (url.pathname.startsWith("/embed/")) return url.pathname.split("/")[2];
     if (url.pathname.startsWith("/shorts/")) return url.pathname.split("/")[2];
     return null;
-  }
+  },
 };
 
-// Normalize hostname to remove subdomains like www. or m.
 function normalizeHostname(hostname) {
-  return hostname.replace(/^www\./, '').replace(/^m\./, '');
+  return hostname.replace(/^www\./, "").replace(/^m\./, "");
 }
 
 function extractVideoId(videoUrl) {
   try {
     const url = new URL(videoUrl);
     const normalizedHost = normalizeHostname(url.hostname);
-
-    if (URL_PATTERNS[normalizedHost]) {
-      return URL_PATTERNS[normalizedHost](url);
-    }
-
-    // Fallback if youtube.com appears anywhere
-    if (normalizedHost.includes("youtube.com")) {
-      return URL_PATTERNS['youtube.com'](url);
-    }
-
+    if (URL_PATTERNS[normalizedHost]) return URL_PATTERNS[normalizedHost](url);
+    if (normalizedHost.includes("youtube.com")) return URL_PATTERNS["youtube.com"](url);
     return null;
   } catch {
     return null;
   }
 }
 
-export default async function handler(req, res) {
+app.get("/api/video-details", async (req, res) => {
   const videoUrl = req.query.url;
   const API_KEY = process.env.YOUTUBE_API_KEY;
 
-  if (!videoUrl) {
-    return res.status(400).json({ error: "YouTube video URL is required." });
-  }
+  if (!videoUrl) return res.status(400).json({ error: "YouTube video URL is required." });
+
+  const videoId = extractVideoId(videoUrl);
+  if (!videoId) return res.status(400).json({ error: "Invalid YouTube video URL." });
 
   try {
-    const videoId = extractVideoId(videoUrl);
-
-    if (!videoId) {
-      return res.status(400).json({ error: "Invalid YouTube video URL." });
-    }
-
-    const response = await axios.get(`https://www.googleapis.com/youtube/v3/videos`, {
+    const response = await axios.get("https://www.googleapis.com/youtube/v3/videos", {
       params: {
         part: "snippet,contentDetails",
         id: videoId,
@@ -59,32 +66,22 @@ export default async function handler(req, res) {
       },
     });
 
-    if (!response.data.items.length) {
-      return res.status(404).json({ error: "Video not found." });
-    }
+    if (!response.data.items.length) return res.status(404).json({ error: "Video not found." });
 
-    const videoDetails = response.data.items[0];
-    const title = videoDetails.snippet.title;
-
-    const thumbnail =
-      videoDetails.snippet.thumbnails.high?.url ||
-      videoDetails.snippet.thumbnails.medium?.url ||
-      videoDetails.snippet.thumbnails.default?.url;
-
-    const duration = videoDetails.contentDetails.duration;
+    const video = response.data.items[0];
+    const title = video.snippet.title;
+    const thumbnail = video.snippet.thumbnails.high?.url || video.snippet.thumbnails.medium?.url || video.snippet.thumbnails.default?.url;
+    const duration = video.contentDetails.duration;
 
     res.json({ title, thumbnail, duration });
   } catch (error) {
     if (error.response) {
-      const status = error.response.status;
-      const message = error.response.data?.error?.message || "YouTube API error";
-      return res.status(status).json({ error: message });
+      return res.status(error.response.status).json({
+        error: error.response.data?.error?.message || "YouTube API error",
+      });
     }
-
-    if (error.name === 'TypeError' && error.message.includes('Invalid URL')) {
-      return res.status(400).json({ error: "Invalid URL format" });
-    }
-
     return res.status(500).json({ error: "Failed to fetch video details." });
   }
-}
+});
+
+export default app;
