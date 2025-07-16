@@ -7,6 +7,9 @@ import morgan from "morgan";
 dotenv.config();
 
 const app = express();
+const port = process.env.PORT || 3000;
+
+// ===== Middlewares =====
 app.use(morgan("dev"));
 
 const allowedOrigins = ["http://localhost:5173", "https://watchwise.vercel.app"];
@@ -22,6 +25,7 @@ app.use(
   })
 );
 
+// ===== Video URL Utilities =====
 const URL_PATTERNS = {
   "youtu.be": (url) => url.pathname.substring(1),
   "youtube.com": (url) => {
@@ -48,6 +52,7 @@ function extractVideoId(videoUrl) {
   }
 }
 
+// ===== API Route =====
 app.get("/api/video-details", async (req, res) => {
   const videoUrl = req.query.url;
   const API_KEY = process.env.YOUTUBE_API_KEY;
@@ -84,4 +89,7 @@ app.get("/api/video-details", async (req, res) => {
   }
 });
 
-export default app;
+// ===== Start Server =====
+app.listen(port, () => {
+  console.log(`WatchWise backend listening on port ${port}`);
+});
