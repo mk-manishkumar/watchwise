@@ -71,40 +71,21 @@ const Home = () => {
   return (
     <div className="min-h-screen flex flex-col">
       {/* =========== HEADER =========== */}
-      <div
-        className={`flex flex-col min-h-[90vh] transition-all duration-300 
-          ${isDarkMode ? "bg-gray-800 text-white" : "bg-white text-black"}`}
-      >
-        <header
-          className={`px-12 py-4 flex justify-between items-center transition-all duration-300 
-            ${isDarkMode ? "bg-black" : "bg-white"} max-sm:px-4`}
-        >
-          <h1 className="text-red-500 text-2xl max-sm:text-xl transition-colors duration-300">
+      <div className={`flex flex-col min-h-[90vh] transition-all duration-300 ${isDarkMode ? "bg-gray-800 text-white" : "bg-white text-black"}`}>
+        <header className={`px-12 py-4 flex justify-between items-center transition-all duration-300 ${isDarkMode ? "bg-black" : "bg-white"} max-sm:px-4`}>
+          <h1 className="text-red-500 text-2xl max-sm:text-xl font-bold transition-colors duration-300">
             <i className="fa-brands fa-youtube mr-2"></i> WatchWise
           </h1>
           <DayNightMode isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
         </header>
 
         {/* =========== FORM & RESULT =========== */}
-        <main className="flex justify-center items-start">
-          <section className="mx-4 my-8">
+        <main className="flex flex-col items-center justify-start flex-grow px-4 py-8 overflow-hidden">
+          <section className="w-full max-w-3xl flex flex-col items-center">
             <div className="mt-8 flex gap-4 max-md:flex-col max-md:items-center">
-              <input
-                type="search"
-                placeholder="Paste the YouTube Video Link here"
-                value={link}
-                onChange={(e) => setLink(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSubmit(e)}
-                className={`border-none outline-none p-3 text-xl w-[500px] max-sm:w-80 max-[375px]:w-64 max-[375px]:text-sm 
-    transition-all duration-300 
-    ${isDarkMode ? "bg-gray-700 text-white" : "bg-gray-100 text-black"}`}
-              />
+              <input type="search" placeholder="Paste the YouTube Video Link here" value={link} onChange={(e) => setLink(e.target.value)} onKeyDown={(e) => e.key === "Enter" && handleSubmit(e)} className={`border-none outline-none p-3 text-xl w-[500px] max-sm:w-80 max-[375px]:w-64 max-[375px]:text-sm transition-all duration-300 ${isDarkMode ? "bg-gray-700 text-white" : "bg-gray-100 text-black"}`} />
 
-              <button
-                onClick={handleSubmit}
-                className="bg-red-500 text-white border-none text-xl px-4 py-3 w-36 max-md:w-24 max-md:px-2 max-md:py-1 max-md:rounded-md max-[375px]:text-sm 
-                cursor-pointer transition-all duration-300 hover:bg-teal-600"
-              >
+              <button onClick={handleSubmit} className="bg-red-500 text-white border-none text-xl px-4 py-3 w-36 max-md:w-24 max-md:px-2 max-md:py-1 max-md:rounded-md max-[375px]:text-sm cursor-pointer transition-all duration-300 hover:bg-teal-600">
                 Submit
               </button>
             </div>
@@ -116,18 +97,10 @@ const Home = () => {
             {videoDetails && (
               <div className="text-center mt-8">
                 <img src={videoDetails.thumbnail} alt={videoDetails.title} className="w-64 h-36 mx-auto rounded-lg shadow-lg mb-4" />
-                <p
-                  className={`text-center mt-3 transition-colors duration-300 
-                    ${isDarkMode ? "text-white" : "text-black"}`}
-                >
+                <p className={`text-center mt-3 transition-colors duration-300 ${isDarkMode ? "text-white" : "text-black"}`}>
                   <em>{videoDetails.title}</em>
                 </p>
-                <p
-                  className={`text-center mt-3 transition-colors duration-300 
-                    ${isDarkMode ? "text-white" : "text-black"}`}
-                >
-                  Video Duration: {isoDurationToHHMMSS(videoDetails.duration)}
-                </p>
+                <p className={`text-center mt-3 transition-colors duration-300 ${isDarkMode ? "text-white" : "text-black"}`}>Video Duration: {isoDurationToHHMMSS(videoDetails.duration)}</p>
               </div>
             )}
 
@@ -143,7 +116,7 @@ const Home = () => {
           Made with &#x1FA77; by{" "}
           <a href="https://manishmk.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-blue-400 no-underline hover:underline transition-all duration-300">
             Manish Kumar
-          </a>, &copy; 2024
+          </a> , &copy; 2024
         </p>
       </footer>
     </div>

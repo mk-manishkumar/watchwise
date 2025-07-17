@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { FaMoon, FaSun } from "react-icons/fa";
 
 const DayNightMode = ({ isDarkMode, setIsDarkMode }) => {
   // Fallback to internal state if not provided (optional support)
@@ -15,9 +16,10 @@ const DayNightMode = ({ isDarkMode, setIsDarkMode }) => {
 
   return (
     <button onClick={() => toggleMode((prev) => !prev)} className="bg-transparent border-none cursor-pointer text-2xl p-2 transition-colors duration-300" aria-label="Toggle theme mode">
-      {darkMode ? <i className="fa-solid fa-sun text-yellow-400" aria-hidden="true"></i> : <i className="fa-solid fa-moon text-red-500" aria-hidden="true"></i>}
+      {darkMode ? <FaSun className="text-yellow-400 hover:text-yellow-300 text-2xl" /> : <FaMoon className="text-gray-800 hover:text-gray-600 text-2xl" />}
     </button>
   );
+
 };
 
 export default DayNightMode;
