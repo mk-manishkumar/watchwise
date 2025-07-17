@@ -12,7 +12,8 @@ const port = process.env.PORT || 3000;
 // ===== Middlewares =====
 app.use(morgan("dev"));
 
-const allowedOrigins = ["http://localhost:5173", "https://watchwise.vercel.app"];
+const allowedOrigins = [process.env.ALLOWED_ORIGIN];
+
 app.use(
   cors({
     origin: (origin, callback) => {
