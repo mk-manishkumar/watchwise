@@ -7,13 +7,13 @@
 
 ## **Deployment**
 
-This project is deployed on `Render` (backend) and `Vercel` (frontend). [Click here](https://watchwise-yt.vercel.app) for live project.
+This project is deployed on and `Vercel` . [Click here](https://watchwise-yt.vercel.app) for live project.
 
 ## **Technologies Used**
 
 ### **Frontend**
 - **React**
-- **Custom CSS**
+- **Tailwind CSS**
 
 ### **Backend**
 - **Node.js + Express**
@@ -24,15 +24,32 @@ This project is deployed on `Render` (backend) and `Vercel` (frontend). [Click h
 ## **Project Structure**
 ```plaintext
 watchwise/
-├── client/               # Frontend folder
-│   ├── public/           # Static assets (favicon, etc.)
-│   ├── src/              # React components and logic
-│   ├── .env              # Frontend environment variables
-│   └── vite.config.js    # Vite configuration
-├── server.js             # Main backend entry point
-├── .env                  # Backend environment variables
-├── package.json          # Backend dependencies and scripts
-└── README.md             # Project documentation
+├── api/                          # Backend folder
+│   ├── .env                      # Backend environment variables
+│   ├── .env.sample               # Sample backend env file
+│   ├── .gitignore                # Git ignored files for backend
+│   ├── package.json              # Backend dependencies and scripts
+│   ├── package-lock.json         # Backend lockfile
+│   ├── server.js                 # Express backend entry point
+│   └── vercel.json               # Vercel backend config
+│
+├── ui/                           # Frontend folder
+│   ├── src/                      # React source files
+│   │   ├── assets/               # Static assets (images, etc.)
+│   │   ├── components/           # React components
+│   │   ├── App.jsx               # Main App component
+│   │   ├── App.css               # App-specific styles
+│   │   ├── index.css             # Global styles
+│   │   └── main.jsx              # Entry point for React
+│   ├── .env                      # Frontend environment variables
+│   ├── .env.sample               # Sample frontend env file
+│   ├── .gitignore                # Git ignored files for frontend
+│   ├── eslint.config.js          # ESLint configuration
+│   ├── index.html                # HTML template
+│   ├── package.json              # Frontend dependencies and scripts
+│   ├── package-lock.json         # Frontend lockfile
+│   └── vite.config.js            # Vite configuration
+
 ```
 
 ---
@@ -70,6 +87,7 @@ Create `.env` files for both the backend and frontend based on the provided `.en
 ```env
 PORT=5000 (example)
 YOUTUBE_API_KEY=""
+ALLOWED_ORIGIN=""
 ```
 
 ### Frontend `.env` example (`client/.env`):
@@ -84,7 +102,7 @@ VITE_API_BASE_URL=""
 ### **1. Backend**
 Start the backend server:
 ```bash
-npm start
+npm run dev
 ```
 The backend will run on `http://localhost:5000`.
 
@@ -95,18 +113,6 @@ cd client
 npm run dev
 ```
 The frontend will run on `http://localhost:5173`.
-
----
-
-## **Production Build**
-To deploy the app:
-1. Build the frontend:
-   ```bash
-   cd client
-   npm run build
-   ```
-2. Serve the frontend using the backend:
-   - Configure Express to serve the `client/dist` folder.
 
 ---
 
